@@ -3,18 +3,36 @@
 // Filter Function
 
 Array* createNewArray(unsigned long long capacity) {
+  printf("\r");
   Array* result = (Array*)malloc(sizeof(Array));
   if (result == NULL) {
     return NULL;
   }
   result->m_data = (int*)malloc(sizeof(int) * capacity);
   if (result->m_data == NULL) {
+    free(result);
     return NULL;
   }
   result->size = 0;
   result->capacity = capacity;
   return result;
 }
+
+bool deleteArray(Array** arr) {
+  if (*arr == NULL) {
+    return false;
+  }
+  if ((*arr)->m_data == NULL) {
+    free(arr);
+    return false;
+  }
+  free((*arr)->m_data);
+  free(*arr);
+  *arr = NULL;
+  return true;
+}
+
+// Filter Function
 
 Array* filter(Array const * const arr, const bool(* const func)(const int)) {
   Array* new_arr = createNewArray(arr->size);

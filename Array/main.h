@@ -14,4 +14,5 @@ void forEach(Array const*const arr, void(* const func)(const int));
 void transform(Array *const arr, void(* const func)(int*const));
 void fill(Array *const arr, int value);
 void fill_cap(Array *const arr, int value);
+bool deleteArray(Array** arr);
 // Function Declarations
