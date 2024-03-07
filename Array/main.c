@@ -1,6 +1,7 @@
 #include "main.h"
 #include <stdio.h>
-// Filter Function
+#include <assert.h>
+// Creating and Deletion Functions
 
 Array* createNewArray(unsigned long long capacity) {
   printf("\r");
@@ -32,12 +33,14 @@ bool deleteArray(Array** arr) {
   return true;
 }
 
+// Creating and Deletion Functions
+//////////////////////////////////////////////////////////////////////////////////////
 // Filter Function
 
-Array* filter(Array const * const arr, const bool(* const func)(const int)) {
+Array* filter(Array const * const arr, pred_t pred) {
   Array* new_arr = createNewArray(arr->size);
   for (int i = 0; i < arr->size; ++i) {
-    if (func(arr->m_data[i])) {
+    if (pred(arr->m_data[i])) {
       new_arr->m_data[new_arr->size++] = arr->m_data[i];
     }
   }
@@ -45,7 +48,7 @@ Array* filter(Array const * const arr, const bool(* const func)(const int)) {
 }
 
 // Filter Function
-
+//////////////////////////////////////////////////////////////////////////////////////
 // ForEach Function
 
 void forEach(Array const * const arr, void(*func)(const int)) {
@@ -55,7 +58,7 @@ void forEach(Array const * const arr, void(*func)(const int)) {
 }
 
 // ForEach Function
-
+//////////////////////////////////////////////////////////////////////////////////////
 // Transform Function
 
 void transform(Array * const arr, void(*func)(int*const)) {
@@ -65,7 +68,7 @@ void transform(Array * const arr, void(*func)(int*const)) {
 }
 
 // Transform Function
-
+//////////////////////////////////////////////////////////////////////////////////////
 // Fill Functions
 void fill(Array *const arr, int value) {
   for (int i = 0; i < arr->size; ++i) {
@@ -79,3 +82,76 @@ void fill_cap(Array *const arr, int value) {
   }
 }
 // Fill Functions
+//////////////////////////////////////////////////////////////////////////////////////
+// Find Functions
+
+int itemAt(Array const * const arr, size_t index) {
+  return *itemAtRef(arr, index);
+}
+
+int* itemAtRef(Array const * const arr, size_t index) {
+  assert(arr->size > index);
+  return &(arr->m_data[index]);
+}
+
+Array* find(Array const * const arr, int value) {
+  Array* res = createNewArray(arr->size);
+  for (int i = 0; i < arr->size; i++) {
+    if (arr->m_data[i] == value) {
+      res->m_data[res->size++] = i;
+    }
+  }
+  return res;
+}
+
+Array* findFunc(Array const * const arr, pred_t pred) {
+  Array* res = createNewArray(arr->size);
+  for (int i = 0; i < arr->size; i++) {
+    if (pred(arr->m_data[i])) {
+      res->m_data[res->size++] = i;
+    }
+  }
+  return res;
+}
+
+int* findFirst(Array const * const arr, int value) {
+  for (int i = 0; i < arr->size; i++) {
+    if (arr->m_data[i] == value) {
+      return &(arr->m_data[i]);
+    }
+  }
+  return NULL;
+}
+
+int* findLast(Array const * const arr, int value) {
+  for (int i = arr->size - 1; i >= 0; i++) {
+    if (arr->m_data[i] == value) {
+      return &(arr->m_data[i]);
+    }
+  }
+  return NULL;
+}
+
+int* findFirstFunc(Array const * const arr, pred_t pred) {
+  for (int i = 0; i < arr->size; i++) {
+    if (pred(arr->m_data[i])) {
+      return &(arr->m_data[i]);
+    }
+  }
+  return NULL;
+}
+int* findLastFunc(Array const * const arr, pred_t pred) {
+  for (int i = arr->size - 1; i >= 0; i++) {
+    if (pred(arr->m_data[i])) {
+      return &(arr->m_data[i]);
+    }
+  }
+  return NULL;
+}
+
+// Find Functions
+//////////////////////////////////////////////////////////////////////////////////////
+// Size Manipulation Functions
+
+// Size Manipulation Functions
+
